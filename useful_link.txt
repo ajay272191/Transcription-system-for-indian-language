@@ -1,7 +1,9 @@
+Problem statement
 I have two scripts, one of them splits audio of a certain length,
 the other one splits audio on every time there is a silent passage.
 Would it be possible to split the audio on silence, but only after a certain time passed?
 I would need chunks of videos split on silence which are not shorter than 5 minutes.
+
 
 Splitting script with ignores silence:
 chunks_t_interval.py

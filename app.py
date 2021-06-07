@@ -20,7 +20,6 @@ from tkinter.filedialog import askopenfilename, asksaveasfilename
 
 # from tkinter.filedialog import asksaveasfilename
 #----------choose image----------------
-
 # importing library for user intaraction
 
 
@@ -472,7 +471,7 @@ def current_slice():
     return 0
 
 #----------------- for live audio ----------------------
-logo = ImageTk.PhotoImage(Image.open('logo.png').resize((200, 200)))
+logo = ImageTk.PhotoImage(Image.open('_logo.png').resize((200, 200)))
 logo_label = Label(image=logo)
 logo_label.image = logo
 logo_label.pack()
@@ -489,7 +488,7 @@ instructions.grid(row=0, column=0, padx=10)
 #browse button
 browse_text = StringVar()
 # browse_btn = tk.Button(root, textvariable=browse_text, command = , font="Raleway", bg="#20bebe", fg="white", height=2, width=15)
-mic_image = Image.open("mic.png")
+mic_image = Image.open("_mic.png")
 mic_image = mic_image.resize((35, 35), Image.ANTIALIAS)
 reset_img = ImageTk.PhotoImage(mic_image)
 browse_btn = Button(comand_frame,borderwidth=0, textvariable=browse_text, image=reset_img,  command=lambda:call_sarthi(),bg="#d9d9d9", fg="white", height=45, width=50)
@@ -503,7 +502,7 @@ browse_btn.grid(row=1, column=0, padx=10)
 # def open_transcription():
 #     show_control.pack_forget() if show_control.winfo_manager() else show_control.pack(after=sent_control, anchor=W, padx=5, pady=10)
 
-choose_img = Image.open("choose_file_.png")
+choose_img = Image.open("_choose_file.png")
 choose_img = choose_img.resize((100, 40), Image.ANTIALIAS)
 choose_img = ImageTk.PhotoImage(choose_img)
 # , height=45, width=50
@@ -521,9 +520,9 @@ sent_control = Frame(comand_frame)
 sent_control.grid(row=2, column=1, padx=30)
 
 
-backward = ImageTk.PhotoImage(Image.open('skip-back.png').resize((35, 35)))
-current = ImageTk.PhotoImage(Image.open('play.png').resize((35, 35)))
-forward = ImageTk.PhotoImage(Image.open('skip-forward.png').resize((35, 35)))
+backward = ImageTk.PhotoImage(Image.open('_skip-back.png').resize((35, 35)))
+current = ImageTk.PhotoImage(Image.open('_play.png').resize((35, 35)))
+forward = ImageTk.PhotoImage(Image.open('_skip-forward.png').resize((35, 35)))
 
 
 # Create Volume Meter

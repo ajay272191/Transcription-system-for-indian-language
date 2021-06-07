@@ -136,7 +136,6 @@ btn.pack(side = TOP, pady = 10)
 
 mainloop()
 
-# import os
 # if os.path.exists("demofile.txt"):
 #   os.remove("demofile.txt")
 # else:
