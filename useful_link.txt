@@ -13,6 +13,8 @@ chunks_silance.py
 
 
 
+
+
 rm *.mp3
 ALSA lib pcm_dmix.c:1052:(snd_pcm_dmix_open) unable to open slave:
 https://github.com/Uberi/speech_recognition/issues/100
@@ -76,3 +78,6 @@ https://github.com/flatplanet/Intro-To-TKinter-Youtube-Course
 
 https://stackoverflow.com/questions/57350259/filenotfounderror-errno-2-no-such-file-or-directory-ffprobe-ffprobe
 https://github.com/MaxStrange/AudioSegment
+
+
+https://note.nkmk.me/en/python-split-rsplit-splitlines-re/

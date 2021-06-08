@@ -9,6 +9,7 @@ import webbrowser
 # importing libraries for speech recognition
 from pocketsphinx import LiveSpeech, DefaultConfig, Decoder, get_model_path, get_data_path
 import speech_recognition as sr
+import re
 
 #for ui
 from tkinter import *
@@ -81,12 +82,16 @@ open_status_name = False
 global slice_position
 slice_position = 0
 
+# transcription
+global transcriptions
+transcriptions = []
+
 # create new file function
 def new_file():
     #delete previus text
     transcipted_text.delete("1.0", END)
     #upadte status bar
-    root.title('New file text pad')
+    # root.title('New file text pad')
     status_bar.config(text="New File...")
     global open_status_name
     open_status_name = False
@@ -108,7 +113,7 @@ def open_file():
     name = text_file
     status_bar.config(text=f'{name}        ')
     # name = name.replace("","")
-    root.title(f'{name}')
+    # root.title(f'{name}')
 
     #open fileids
     text_file = open(text_file, 'r')
@@ -391,7 +396,26 @@ def choose_file():
     engine.say("After choosing the files, it been breaked on each silance, now you can play and see transcription of each slices")
     engine.runAndWait()
     engine.stop()
+
+
+    #transcribing and storing each chunks in a list
+    for i in range(len(chunk_list)):
+        prediction = ""
+
+        with open(chunk_list[i], 'rb') as f:
+            decoder.start_utt()
+            while f.readinto(buf):
+                decoder.process_raw(buf, False, False)
+            decoder.end_utt()
+
+        for segment in decoder.seg():
+            prediction = prediction + " " + segment.word
+
+        print("\n\nfinal prediction is: ", prediction, "\n")
+        transcriptions.insert(i, prediction)
     # transcribe(filename)
+    print("\n\n\n\n\n===================================================================================\n\n")
+    print(transcriptions, "\n\n===================================================================\n\n\n\n")
     return 0
 
 def play_and_do_transcribe():
@@ -411,13 +435,6 @@ def play_and_do_transcribe():
         engine.say("End of the file cross")
         engine.runAndWait()
         engine.stop()
-        # choice = input()
-        # flag = 0
-        # if(choice == 'Y' or choice == 'y'):
-        #     print("\n exiting................")
-        #     break
-        # else:
-        #     slice_position = slice_position - 1
         flag = 0
 
     elif(slice_position < 0):
@@ -430,20 +447,32 @@ def play_and_do_transcribe():
 
     if(flag == 1):
         # data_path = get_data_path()
-        prediction = ""
+        # prediction = ""
+        #
+        # with open(chunk_list[slice_position], 'rb') as f:
+        #     decoder.start_utt()
+        #     while f.readinto(buf):
+        #         decoder.process_raw(buf, False, False)
+        #     decoder.end_utt()
+        #
+        # for segment in decoder.seg():
+        #     prediction = prediction + " " + segment.word
+        #
+        # print("\n\nfinal prediction is: ", prediction, "\n")
+        # transcipted_text
+        transcipted_text.delete("1.0", END)
+        sentence = re.split('<s>|</s>', transcriptions[slice_position])
+        temp = []
+        for s in sentence:
+            if(s != ''):
+                temp.append(s)
+        # sentence = temp
 
-        with open(chunk_list[slice_position], 'rb') as f:
-            decoder.start_utt()
-            while f.readinto(buf):
-                decoder.process_raw(buf, False, False)
-            decoder.end_utt()
+        sentence = " "
+        sentence = sentence.join(temp)
+        transcipted_text.insert(INSERT, sentence)
+        # play(chunks[slice_position])
 
-        for segment in decoder.seg():
-            prediction = prediction + " " + segment.word
-
-        print("\n\nfinal prediction is: ", prediction, "\n")
-        transcipted_text.insert(INSERT, prediction)
-        play(chunks[slice_position])
 
     return 0
 
@@ -452,6 +481,13 @@ def forward_slice():
     global flag
     flag = 1
     global slice_position
+    initian_transcription = transcipted_text.get("1.0",'end-1c')
+    if(initian_transcription != "Transcription will be shown here"):
+        transcriptions[slice_position] ='<s>' + initian_transcription + '</s>'
+
+    print("\n\n\ntranscipted_text: ",type(transcipted_text))
+    print(transcipted_text.get("1.0",'end-1c'), "\n")
+    print(" modifed values added : ", transcriptions, "\n\n\n")
     slice_position = slice_position + 1
     play_and_do_transcribe()
     return 0
@@ -460,6 +496,13 @@ def backward_slice():
     global flag
     flag = 1
     global slice_position
+    initian_transcription = transcipted_text.get("1.0",'end-1c')
+    if(initian_transcription != "Transcription will be shown here"):
+        transcriptions[slice_position] ='<s>' + initian_transcription + '</s>'
+
+    print("\n\n\ntranscipted_text: ",type(transcipted_text))
+    print(transcipted_text.get("1.0",'end-1c'), "\n")
+    print(" modifed values added : ", transcriptions, "\n\n\n")
     slice_position = slice_position - 1
     play_and_do_transcribe()
     return 0
@@ -467,6 +510,15 @@ def backward_slice():
 def current_slice():
     global flag
     flag = 1
+    global slice_position
+    initian_transcription = transcipted_text.get("1.0",'end-1c')
+    if(initian_transcription != "Transcription will be shown here"):
+        transcriptions[slice_position] ='<s>' + initian_transcription + '</s>'
+
+    print("\n\n\ntranscipted_text: ",type(transcipted_text))
+    print(initian_transcription, "\n")
+
+    print(" modifed values added : ", transcriptions, "\n\n\n")
     play_and_do_transcribe()
     return 0
 
@@ -556,7 +608,7 @@ text_scroll.pack(side=RIGHT, fill=Y)
 global transcipted_text
 transcipted_text = Text(my_frame, width = 97, height = 25, font=("Helvetica", 16), selectbackground="Yellow", selectforeground="black", undo=True, yscrollcommand=text_scroll.set, pady=5)
 transcipted_text.pack()
-transcipted_text.insert(INSERT, "Your comand: ")
+transcipted_text.insert(INSERT, "Transcription will be shown here")
 
 
 #create menu
