@@ -31,11 +31,6 @@ from pydub.playback import play
 
 
 
-# import tkinter as tk
-# from PIL import Image, ImageTk
-# from tkinter.filedialog import askopenfile
-
-
 # object creation
 engine = pyttsx3.init()
 # """ RATE"""
@@ -52,12 +47,11 @@ voices = engine.getProperty('voices')       #getting details of current voice
 engine.setProperty('voice', voices[22].id)   #changing index, changes voices. 1 for female
 
 
-
-# configuring decoder to decode text from audio
-
 #getting model path
 model_path_ = get_model_path()
 
+
+# configuring decoder to decode text from audio
 # setting up custom configuration
 config = DefaultConfig()
 config.set_string('-hmm', os.path.join(model_path_, 'en-us'))
@@ -177,7 +171,7 @@ class Sarthi(object):
             print("get set speak")
             with sr.Microphone() as source:
                 r.adjust_for_ambient_noise(source)
-                self.sarthi_tts("please speak")                                           # use the default microphone as the audio source
+                self.sarthi_tts("google A S R activated")                                           # use the default microphone as the audio source
                 audio = r.listen(source)                   # listen for the first phrase and extract it into audio data
 
             try:
@@ -192,7 +186,7 @@ class Sarthi(object):
             print("no  internet connection ")
             print("Offline so result maybe inaccurate")
             print("now speek")
-            self.sarthi_tts("please speak")
+            self.sarthi_tts("pocket sphinx activated")
             self.model_path = get_model_path()
             # print(self.model_path)
             speech = LiveSpeech(
@@ -337,42 +331,92 @@ def give_intro():
     # engine.runAndWait()
     engine.stop()
 
+
+global call_sarthi_flag
+call_sarthi_flag = 0
 def call_sarthi():
+
+    global call_sarthi_flag
+    global transcipted_text
     browse_text.set("listening...")
     command = Sarthi()
     # p1 = MyClass()
     give_command = command.sarthi()
     print("given command: ", give_command)
-    # instructions.set(give_command)
-    global transcipted_text
-    transcipted_text.insert(INSERT, give_command)
-    transcipted_text.insert(INSERT, "________________ comand: ")
-    # browse_text.set("start")
+
+    if(call_sarthi_flag == 0):
+
+        # instructions.set(give_command)
+        # global transcipted_text
+        transcipted_text.insert(INSERT, give_command)
+        #
+
+        transcipted_text.insert(INSERT, "Transcription will be shown here")
+        call_sarthi_flag = call_sarthi_flag + 1
+    else:
+
+        # instructions.set(give_command)
+        if( "Transcription will be shown here" in transcipted_text.get("1.0",'end-1c')):
+            transcipted_text.replace("Transcription will be shown here", '. ')
+        transcipted_text.insert(INSERT, give_command)
+        # if( "Transcription will be shown here" in transcipted_text.get("1.0",'end-1c')):
+        #     transcipted_text.replace("Transcription will be shown here", '. ')
+        # transcipted_text.insert(INSERT, "Transcription will be shown here")
+
+
+# browse_text.set("start")
 
 
 
 global flag
 flag = 1
 global chunk_list
-global total_chunk
 chunk_list = []
+global total_chunk
+total_chunk = 0
 global file_path_name
+file_path_name = ""
 global chunks
+chunks = 0
 file_path_name = " "
+global transciption_file_path
+transciption_file_path = " "
+
+def write_transcription():
+    # global transcriptions
+    global transciption_file_path
+    print("\n\ntransciption_file_path-----------------------------------------------------------------------------------------------------------\n",transciption_file_path)
+    global slice_position
+    initian_transcription = transcipted_text.get("1.0",'end-1c')
+
+    if(len(transcriptions) != 0):
+        if("Transcription will be shown here" not in initian_transcription):
+            # if(len(transcriptions) != 0):
+                transcriptions[slice_position] ='<s>' + initian_transcription + '</s>'
+        f = open(transciption_file_path, "w")
+        for t in transcriptions:
+            t = t + '\n'
+            print(t)
+            f.write(t)
+        f.close()
+
 def choose_file():
     global slice_position
     global file_path_name
     global total_chunk
     global chunk_list
     global chunks
+    global transciption_file_path
     slice_position = 0
     file_path_name = askopenfilename(filetypes =[('Wav file', '.wav'), ('Mp3 file', '.mp3')])
+    if(len(file_path_name) == 0):
+        file_path_name = ' '
     print("\n\nfilename______: ", file_path_name,"\n\n\n")
     file_path['text'] =  "File: " + file_path_name
 
     print("\n\n-----------------------------",file_path_name,"\n\n")
     # file_dir =   "26.wav"
-    sound = AudioSegment.from_file(file_path_name, "wav")
+    sound = AudioSegment.from_file(file_path_name, "mp3")
     # play(sound)
     # root.withdraw()
     chunks = split_on_silence(sound,
@@ -393,26 +437,52 @@ def choose_file():
     print("chunk_list: ", chunk_list)
     print("\n\n")
 
-    engine.say("After choosing the files, it been breaked on each silance, now you can play and see transcription of each slices")
+    engine.say("After choosing the files, it been breaked on each silances")
     engine.runAndWait()
     engine.stop()
 
 
     #transcribing and storing each chunks in a list
-    for i in range(len(chunk_list)):
-        prediction = ""
+    temp1 = re.split('.mp3', file_path_name)
+    print(" temp1: ", temp1)
+    transciption_file_path = temp1[0] + '.txt'
+    print("------------------------------------------------------------------------------------------------------------------")
+    print("transciption_file_path", "\n\n",transciption_file_path)
+    print("------------------------------------------------------------------------------------------------------------------")
+    if os.path.exists(transciption_file_path):
 
-        with open(chunk_list[i], 'rb') as f:
-            decoder.start_utt()
-            while f.readinto(buf):
-                decoder.process_raw(buf, False, False)
-            decoder.end_utt()
+        global transcriptions
+        #open and read the file after the appending:
+        print("file already exists")
+        f = open(transciption_file_path, "r")
+        sentences = f.read()
+        sentences = re.split('\n', sentences)
+        print("\n\n-----------file read ----sentences: ", len(sentences), sentences, "---------------------\n\n\n")
+        transcriptions = []
+        for s in sentences:
+            if(s != ''):
+                transcriptions.append(s)
+            else:
+                pass
+        print(transcriptions)
+        f.close()
+    else:
+        for i in range(len(chunk_list)):
+            prediction = ""
 
-        for segment in decoder.seg():
-            prediction = prediction + " " + segment.word
+            with open(chunk_list[i], 'rb') as f:
+                decoder.start_utt()
+                while f.readinto(buf):
+                    decoder.process_raw(buf, False, False)
+                decoder.end_utt()
 
-        print("\n\nfinal prediction is: ", prediction, "\n")
-        transcriptions.insert(i, prediction)
+            for segment in decoder.seg():
+                prediction = prediction + " " + segment.word
+
+            print("\n\nfinal prediction is: ", prediction, "\n")
+            transcriptions.insert(i, prediction)
+        write_transcription()
+
     # transcribe(filename)
     print("\n\n\n\n\n===================================================================================\n\n")
     print(transcriptions, "\n\n===================================================================\n\n\n\n")
@@ -461,7 +531,9 @@ def play_and_do_transcribe():
         # print("\n\nfinal prediction is: ", prediction, "\n")
         # transcipted_text
         transcipted_text.delete("1.0", END)
-        sentence = re.split('<s>|</s>', transcriptions[slice_position])
+        sentence = ''
+        if(len(transcriptions)>0):
+            sentence = re.split('<s>|</s>', transcriptions[slice_position])
         temp = []
         for s in sentence:
             if(s != ''):
@@ -471,7 +543,7 @@ def play_and_do_transcribe():
         sentence = " "
         sentence = sentence.join(temp)
         transcipted_text.insert(INSERT, sentence)
-        # play(chunks[slice_position])
+        play(chunks[slice_position])
 
 
     return 0
@@ -483,7 +555,10 @@ def forward_slice():
     global slice_position
     initian_transcription = transcipted_text.get("1.0",'end-1c')
     if(initian_transcription != "Transcription will be shown here"):
-        transcriptions[slice_position] ='<s>' + initian_transcription + '</s>'
+        if(len(transcriptions) == 0):
+            transcriptions[slice_position].append('<s>' + initian_transcription + '</s>')
+        else:
+            transcriptions[slice_position] ='<s>' + initian_transcription + '</s>'
 
     print("\n\n\ntranscipted_text: ",type(transcipted_text))
     print(transcipted_text.get("1.0",'end-1c'), "\n")
@@ -498,7 +573,11 @@ def backward_slice():
     global slice_position
     initian_transcription = transcipted_text.get("1.0",'end-1c')
     if(initian_transcription != "Transcription will be shown here"):
-        transcriptions[slice_position] ='<s>' + initian_transcription + '</s>'
+        if(len(transcriptions) == 0):
+            transcriptions[slice_position].append('<s>' + initian_transcription + '</s>')
+        else:
+            transcriptions[slice_position] ='<s>' + initian_transcription + '</s>'
+
 
     print("\n\n\ntranscipted_text: ",type(transcipted_text))
     print(transcipted_text.get("1.0",'end-1c'), "\n")
@@ -513,7 +592,10 @@ def current_slice():
     global slice_position
     initian_transcription = transcipted_text.get("1.0",'end-1c')
     if(initian_transcription != "Transcription will be shown here"):
-        transcriptions[slice_position] ='<s>' + initian_transcription + '</s>'
+        if(len(transcriptions) == 0):
+            transcriptions[slice_position].append('<s>' + initian_transcription + '</s>')
+        else:
+            transcriptions[slice_position] ='<s>' + initian_transcription + '</s>'
 
     print("\n\n\ntranscipted_text: ",type(transcipted_text))
     print(initian_transcription, "\n")
@@ -521,6 +603,10 @@ def current_slice():
     print(" modifed values added : ", transcriptions, "\n\n\n")
     play_and_do_transcribe()
     return 0
+
+def exiting_window():
+    write_transcription()
+    root.quit()
 
 #----------------- for live audio ----------------------
 logo = ImageTk.PhotoImage(Image.open('_logo.png').resize((200, 200)))
@@ -623,7 +709,7 @@ file_menu.add_command(label="Open", command=open_file)
 file_menu.add_command(label="Save", command=save_file)
 file_menu.add_command(label="Save As", command=save_as_file)
 file_menu.add_separator()
-file_menu.add_command(label="Exit", command=root.quit)
+file_menu.add_command(label="Exit", command=exiting_window)
 
 #add edit menu
 edit_menu=Menu(my_menu, tearoff=False)
@@ -635,8 +721,8 @@ edit_menu.add_command(label="Undo")
 edit_menu.add_command(label="Redo")
 
 #add status bar to bottom of app
-status_bar = Label(root, text="Ready        ", anchor=E)#east = E
-status_bar.pack(fill=X, side=BOTTOM, ipady=5 )
+# status_bar = Label(root, text="Ready        ", anchor=E)#east = E
+# status_bar.pack(fill=X, side=BOTTOM, ipady=5 )
 #configure scrollbar
 text_scroll.config(command=transcipted_text.yview)
 
