@@ -26,7 +26,6 @@ if os.path.exists(transcript_file):
         if(s != ''):
             transcriptions.append(s)
         else:
-            print("you fucked up")
             pass
     print(transcriptions)
     write_transcription()

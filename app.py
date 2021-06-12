@@ -68,6 +68,7 @@ root = Tk()
 root.title("Sarthi AMA's Virtual Assistant")
 root.geometry('900x500')
 
+
 # set variable for open filename
 global open_status_name
 open_status_name = False
@@ -340,6 +341,7 @@ def call_sarthi():
     global transcipted_text
     browse_text.set("listening...")
     command = Sarthi()
+    # mic_btn['state'] = 'normal'
     # p1 = MyClass()
     give_command = command.sarthi()
     print("given command: ", give_command)
@@ -608,11 +610,88 @@ def exiting_window():
     write_transcription()
     root.quit()
 
+# global live_voice_status, audio_file_status
+global live_button_state, mic_state, audio_button_state, choose_n_option_state
+global live_voice_btn, audio_file_btn, mic_btn, choose_file_btn, backward_button, current_button, forward_button
+live_button_state = "normal"
+mic_state = "active"
+audio_button_state = "normal"
+choose_n_option_state = "normal"
+
+print("\n\n\n---------------------live_voice_status: ", live_button_state, "----------\n")
+print("---------------------mic_state: ", mic_state, "-------------------------")
+print("---------------------audio_button_state: ", audio_button_state, "-------------\n")
+print("-------------------choose_n_option_state: ", choose_n_option_state, "------------\n\n\n")
+
+def set_button_Status():
+    # global live_button_state, mic_state, audio_button_state, choose_n_option_state
+    # global live_voice_btn, audio_file_btn, mic_btn, choose_file_btn, backward_button, current_button, forward_button
+
+    print("\n\n\n-------------live_voice_status: ", live_button_state, "----------\n")
+    print("------------mic_state: ", mic_state, "--------------------\n")
+    print("-----------audio_button_state: ", audio_button_state, "--------------------------------\n")
+    print("--------------choose_n_option_state: ", choose_n_option_state, "--------------------------------\n\n\n")
+    if(live_voice_btn['state'] == "active"):
+        live_voice_btn['state'] = 'normal'
+        audio_file_btn['state'] = 'normal'
+        mic_btn['state'] = 'normal'
+        choose_file_btn['state'] = 'disabled'
+        backward_button['state'] = 'disabled'
+        current_button['state'] = 'disabled'
+        forward_button['state'] = 'disabled'
+        # forward_button.state = choose_n_option_state
+    elif(audio_file_btn['state'] == 'active'):
+        live_voice_btn['state'] = 'normal'
+        audio_file_btn['state'] = 'normal'
+        mic_btn['state'] = 'disabled'
+        choose_file_btn['state'] = 'normal'
+        backward_button['state'] = 'normal'
+        current_button['state'] = 'normal'
+        forward_button['state'] = 'normal'
+    else:
+        print('\n\ndono normal hai--------------------------------\n\n')
+
+        pass
+
+    print("\n\nlive_voice_btn:   ",live_voice_btn['state'])
+    print("audio_file_btn:   ",audio_file_btn['state'])
+    print("mic_btn: ",mic_btn['state'])
+    print("choose_file_btn: ",choose_file_btn['state'])
+    print("backward_button: ", backward_button['state'])
+    print("current_button: ", current_button['state'])
+    print("forward_button: ", forward_button['state'],'\n\n')
+
+
+#----------------logo and transcription control----------------------
+
+
+logo_frame = Frame(root)
+logo_frame.pack()
+
+live_voice_btn = Button(
+                    logo_frame,borderwidth=0, text="Live: " + live_button_state,  command=lambda:set_button_Status(),
+                    bg="#0c23a0", fg="white", height=2, width=13,
+                    state = live_button_state
+                    )
+live_voice_btn.grid(row=0, column=0, padx=10)
+
 #----------------- for live audio ----------------------
 logo = ImageTk.PhotoImage(Image.open('_logo.png').resize((200, 200)))
-logo_label = Label(image=logo)
-logo_label.image = logo
-logo_label.pack()
+logo_label = Label(logo_frame, image=logo)
+# logo_label.image = logo
+# logo_label.pack()
+logo_label.grid(row=0, column=1, padx=10)
+
+
+audio_file_btn = Button(
+                    logo_frame,borderwidth=0, text="Audio: "+audio_button_state,  command=lambda:set_button_Status(),
+                    bg="#0c23a0", fg="white", height=2, width=13,
+                    state = audio_button_state
+                    )
+audio_file_btn.grid(row=0, column=2, padx=10)
+
+
+
 
 #-------------------command wrapper-----------------------------------------
 comand_frame = Frame(root)
@@ -625,27 +704,38 @@ instructions.grid(row=0, column=0, padx=10)
 
 #browse button
 browse_text = StringVar()
-# browse_btn = tk.Button(root, textvariable=browse_text, command = , font="Raleway", bg="#20bebe", fg="white", height=2, width=15)
+# mic_btn = tk.Button(root, textvariable=browse_text, command = , font="Raleway", bg="#20bebe", fg="white", height=2, width=15)
 mic_image = Image.open("_mic.png")
 mic_image = mic_image.resize((35, 35), Image.ANTIALIAS)
 reset_img = ImageTk.PhotoImage(mic_image)
-browse_btn = Button(comand_frame,borderwidth=0, textvariable=browse_text, image=reset_img,  command=lambda:call_sarthi(),bg="#d9d9d9", fg="white", height=45, width=50)
+
+mic_btn = Button(
+                    comand_frame,borderwidth=0, textvariable=browse_text,
+                    image=reset_img,  command=lambda:call_sarthi(),
+                    bg="#d9d9d9", fg="white", height=45, width=50,
+                    state = 'disabled'
+                    )
 # browse_text.set("Start")
-# browse_btn.pack()
-browse_btn.grid(row=1, column=0, padx=10)
+# mic_btn.pack()
+mic_btn.grid(row=1, column=0, padx=10)
 
 
 #------------------------For audio file ----------------------------------------------
 
 # def open_transcription():
-#     show_control.pack_forget() if show_control.winfo_manager() else show_control.pack(after=sent_control, anchor=W, padx=5, pady=10)
+#     choose_file_btn.pack_forget() if choose_file_btn.winfo_manager() else choose_file_btn.pack(after=sent_control, anchor=W, padx=5, pady=10)
 
 choose_img = Image.open("_choose_file.png")
 choose_img = choose_img.resize((100, 40), Image.ANTIALIAS)
 choose_img = ImageTk.PhotoImage(choose_img)
 # , height=45, width=50
-show_control = Button(comand_frame,borderwidth=0, textvariable=browse_text, image=choose_img,  command=lambda:choose_file(), font="Raleway", bg="#d9d9d9", fg="white")
-show_control.grid(row=0, column=1, padx=10)
+
+choose_file_btn = Button(
+                     comand_frame,borderwidth=0, textvariable=browse_text, image=choose_img,
+                     command=lambda:choose_file(), font="Raleway", bg="#d9d9d9", fg="white",
+                     state = 'disabled'
+                     )
+choose_file_btn.grid(row=0, column=1, padx=10)
 
 # transcipted_text = Text(my_frame, width = 97, height = 25, font=("Helvetica", 16), selectbackground="Yellow", selectforeground="black", undo=True, yscrollcommand=text_scroll.set, pady=5)
 # file_path = Text(comand_frame,width=50,height = 2,  selectbackground="Yellow", selectforeground="black", undo=False, pady=5)
@@ -664,21 +754,32 @@ forward = ImageTk.PhotoImage(Image.open('_skip-forward.png').resize((35, 35)))
 
 
 # Create Volume Meter
-backward_button = Button(sent_control, image=forward, borderwidth=0, textvariable=browse_text,  command=lambda:backward_slice(), font="Raleway", bg="#d9d9d9", fg="white", height=45, width=50)
+backward_button = Button(
+                        sent_control, image=backward, borderwidth=0, textvariable=browse_text,  command=lambda:backward_slice(),
+                        font="Raleway", bg="#d9d9d9", fg="white", height=45, width=50,
+                        state = 'disabled'
+                        )
 backward_button.grid(row=0, column=0, padx=0)
-backward_button = Label(sent_control, text="previus")
-backward_button.grid(row=1, column=0, padx=0)
+backward_button_label = Label(sent_control, text="previus")
+backward_button_label.grid(row=1, column=0, padx=0)
 
-current_button = Button(sent_control, image=current, borderwidth=0, textvariable=browse_text,  command=lambda:current_slice(), font="Raleway", bg="#d9d9d9", fg="white", height=45, width=50)
+current_button = Button(
+                        sent_control, image=current, borderwidth=0, textvariable=browse_text,  command=lambda:current_slice(),
+                        font="Raleway", bg="#d9d9d9", fg="white", height=45, width=50,
+                        state = 'disabled'
+                        )
 current_button.grid(row=0, column=1, padx=0)
-current_button = Label(sent_control, text="current")
-current_button.grid(row=1, column=1, padx=0)
+current_button_label = Label(sent_control, text="current")
+current_button_label.grid(row=1, column=1, padx=0)
 
-
-forward_button = Button(sent_control, image=backward, borderwidth=0, textvariable=browse_text,  command=lambda:forward_slice(), font="Raleway", bg="#d9d9d9", fg="white", height=45, width=50)
+forward_button = Button(
+                        sent_control, image=forward, borderwidth=0, textvariable=browse_text,  command=lambda:forward_slice(),
+                        font="Raleway", bg="#d9d9d9", fg="white", height=45, width=50,
+                        state = 'disabled'
+                        )
 forward_button.grid(row=0, column=2, padx=0)
-forward_button = Label(sent_control, text="next")
-forward_button.grid(row=1, column=2, padx=0)
+forward_button_label = Label(sent_control, text="next")
+forward_button_label.grid(row=1, column=2, padx=0)
 
 
 
