@@ -416,9 +416,25 @@ def choose_file():
     print("\n\nfilename______: ", file_path_name,"\n\n\n")
     file_path['text'] =  "File: " + file_path_name
 
-    print("\n\n-----------------------------",file_path_name,"\n\n")
+    seperator = '/'
+    breaked_file_path = re.split(seperator, file_path_name)
+    file_extention = breaked_file_path[-1]
+    wav_file_path_name = ''
+    if('.wav' not in file_extention):
+
+        breaked_file_path[-1] = '.wav'
+        wav_file_path_name = seperator.join(breaked_file_path)
+
+        sound = AudioSegment.from_mp3(file_path_name)
+        print("\n\n================= mp3 file selected =====================\n\n")
+        sound.export(wav_file_path_name, format="wav")
+    else:
+        print("\n\n================= wav file selected =====================\n\n")
+        wav_file_path_name = file_path_name
+    print("\n\n-----------------------------",wav_file_path_name,"\n\n")
     # file_dir =   "26.wav"
-    sound = AudioSegment.from_file(file_path_name, "mp3")
+
+    sound = AudioSegment.from_file(wav_file_path_name, "wav")
     # play(sound)
     # root.withdraw()
     chunks = split_on_silence(sound,
@@ -439,20 +455,25 @@ def choose_file():
     print("chunk_list: ", chunk_list)
     print("\n\n")
 
-    engine.say("After choosing the files, it been breaked on each silances")
-    engine.runAndWait()
-    engine.stop()
+    play(AudioSegment.from_file('./files/choose_file_hindi.mp3', "mp3"))
+    # engine.say("After choosing the files, it have break on each silences")
+    # engine.runAndWait()
+    # engine.stop()
 
 
     #transcribing and storing each chunks in a list
-    temp1 = re.split('.mp3', file_path_name)
-    print(" temp1: ", temp1)
+    # print("file_extention: ", file_extention)
+    temp1 = re.split('.wav', wav_file_path_name)
+    print("temp1: ", temp1)
+
     transciption_file_path = temp1[0] + '.txt'
     print("------------------------------------------------------------------------------------------------------------------")
     print("transciption_file_path", "\n\n",transciption_file_path)
     print("------------------------------------------------------------------------------------------------------------------")
+    engine.say("            wait for next instructions")
+    engine.runAndWait()
+    engine.stop()
     if os.path.exists(transciption_file_path):
-
         global transcriptions
         #open and read the file after the appending:
         print("file already exists")
@@ -486,6 +507,9 @@ def choose_file():
         write_transcription()
 
     # transcribe(filename)
+    engine.say("now you can play each chunks")
+    engine.runAndWait()
+    engine.stop()
     print("\n\n\n\n\n===================================================================================\n\n")
     print(transcriptions, "\n\n===================================================================\n\n\n\n")
     return 0
