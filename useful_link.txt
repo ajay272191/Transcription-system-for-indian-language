@@ -81,3 +81,7 @@ https://github.com/MaxStrange/AudioSegment
 
 
 https://note.nkmk.me/en/python-split-rsplit-splitlines-re/
+
+
+convert .lm to .lm.bin
+sphinx_lm_convert -i weather.lm -o weather.lm.bin

@@ -1,0 +1,426 @@
+language model created by quicklm on fri mar 26 03:05:45 edt 2021
+copyright (c) 1996-2010 carnegie mellon university and alexander i. rudnicky
+
+the model is in standard arpa format, designed by doug paul while he was at mitre.
+
+the code that was used to produce this language model is available in open source.
+please visit http://www.speech.cs.cmu.edu/tools/ for more information
+
+the (fixed) discount mass is 0.5. the backoffs are computed using the ratio method.
+this model based on a corpus of 42 sentences and 92 words
+
+\data\
+ngram 1=92
+ngram 2=153
+ngram 3=158
+
+\1-grams:
+-1.0740 </s> -0.3010
+-1.0740 <s> -0.2502
+-2.6972 aabhaa -0.3002
+-2.6972 aabhaaree -0.2713
+-2.6972 aadat -0.2984
+-2.6972 aapake -0.3002
+-2.6972 aatee -0.2713
+-2.6972 aayu -0.3002
+-2.3962 achchhaa -0.2966
+-2.2201 achchhee -0.2713
+-2.6972 apanaa -0.3002
+-2.6972 apanee -0.3002
+-2.6972 banaatee -0.2713
+-2.6972 bhee -0.3002
+-2.6972 dikhaa -0.2628
+-2.6972 durbal -0.2993
+-2.6972 durlabh -0.2993
+-2.3962 ek -0.2993
+-2.6972 ghaṭanaa -0.2713
+-2.6972 haathee -0.2713
+-1.1787 hai -0.2628
+-2.6972 ham -0.3002
+-2.3962 ho -0.2628
+-2.6972 hotaa -0.2713
+-2.6972 huaa -0.2628
+-2.6972 jaaree -0.2713
+-2.3962 jaataa -0.2713
+-2.6972 jaatee -0.2713
+-2.0952 kaa -0.2913
+-2.6972 kaalaa -0.2713
+-2.2201 kaary -0.2975
+-2.6972 kam -0.2713
+-2.6972 karataa -0.2713
+-2.3962 karate -0.2703
+-2.3962 karo -0.2628
+-2.6972 kartavy -0.2713
+-2.6972 karttavy -0.2993
+-2.6972 kee -0.3002
+-2.6972 ko -0.3002
+-2.6972 kyaa -0.2713
+-2.3962 maalaa -0.2949
+-2.6972 mahaan -0.3002
+-2.2201 mahaaraajaa -0.2931
+-2.6972 maidaan -0.2993
+-2.6972 paḍho -0.2628
+-2.6972 prayog -0.2993
+-2.6972 raho -0.2628
+-2.6972 sachchee -0.3002
+-2.6972 samraaṭ -0.2975
+-2.6972 samundr -0.3002
+-2.6972 sardee -0.3002
+-2.3962 se -0.2984
+-2.6972 siyaahee -0.2984
+-2.6972 smitaa -0.3002
+-2.6972 snpann -0.3002
+-2.6972 soochanaa -0.3002
+-2.6972 sooraj -0.3002
+-2.6972 subah -0.3002
+-2.6972 sujhaav -0.2975
+-2.0952 sundar -0.2713
+-2.6972 taalaab -0.2713
+-2.6972 tapasvee -0.2993
+-2.3962 tapasyaa -0.2984
+-2.6972 thee -0.2628
+-2.2201 tum -0.2940
+-2.6972 tumhaaraa -0.2993
+-2.6972 tumhaaree -0.3002
+-2.6972 upaasanaa -0.2993
+-2.3962 upalabdh -0.2713
+-2.2201 upaniṣad -0.2966
+-2.3962 upanyaas -0.2703
+-2.6972 upasthatit -0.2713
+-2.6972 upayukt -0.2713
+-2.6972 usakee -0.3002
+-2.6972 usee -0.3002
+-2.3962 vaahan -0.2984
+-2.6972 vaaky -0.2975
+-2.6972 vah -0.3002
+-2.6972 vaidhy -0.2713
+-2.6972 vaidik -0.3002
+-2.6972 vaktaa -0.3002
+-2.6972 vastr -0.2975
+-2.6972 veer -0.2975
+-2.3962 vidhivat -0.2975
+-2.0952 vidvaan -0.2666
+-2.3962 vidyaa -0.2966
+-2.3962 vidyaalay -0.2958
+-2.3962 vidyaarthee -0.2984
+-2.3962 virodhee -0.2694
+-2.3962 yaatree -0.2694
+-1.8521 yah -0.2940
+-2.6972 yug -0.2993
+
+\2-grams:
+-1.9243 <s> aadat 0.0000
+-1.9243 <s> apanaa 0.0000
+-1.9243 <s> ek 0.0000
+-1.9243 <s> ham 0.0000
+-1.6232 <s> kaary -0.1249
+-1.6232 <s> maalaa 0.0000
+-1.4472 <s> mahaaraajaa 0.0000
+-1.9243 <s> samraaṭ 0.0000
+-1.9243 <s> samundr 0.0000
+-1.9243 <s> siyaahee 0.0000
+-1.9243 <s> soochanaa 0.0000
+-1.9243 <s> sooraj 0.0000
+-1.9243 <s> subah 0.0000
+-1.9243 <s> tapasvee 0.0000
+-1.9243 <s> tapasyaa -0.1761
+-1.4472 <s> tum 0.0000
+-1.9243 <s> tumhaaree 0.0000
+-1.9243 <s> upaniṣad -0.2218
+-1.9243 <s> usakee 0.0000
+-1.9243 <s> usee 0.0000
+-1.9243 <s> vah 0.0000
+-1.9243 <s> vastr 0.0000
+-1.9243 <s> veer 0.0000
+-1.9243 <s> vidhivat -0.1761
+-1.9243 <s> vidvaan -0.2430
+-1.6232 <s> vidyaa 0.0000
+-1.9243 <s> vidyaalay -0.1761
+-1.9243 <s> vidyaarthee -0.1761
+-1.9243 <s> yaatree -0.1761
+-1.1461 <s> yah -0.0580
+-0.3010 aabhaa dikhaa 0.0000
+-0.3010 aabhaaree hai 0.0000
+-0.3010 aadat achchhee 0.0000
+-0.3010 aapake aabhaaree 0.0000
+-0.3010 aatee hai 0.0000
+-0.3010 aayu kam 0.0000
+-0.6021 achchhaa vaktaa 0.0000
+-0.6021 achchhaa vidvaan -0.2430
+-0.3010 achchhee hai 0.0000
+-0.3010 apanaa karttavy 0.0000
+-0.3010 apanee aabhaa 0.0000
+-0.3010 banaatee hai 0.0000
+-0.3010 bhee hotaa 0.0000
+-0.3010 dikhaa </s> -0.3010
+-0.3010 durbal ho 0.0000
+-0.3010 durlabh upanyaas -0.1761
+-0.3010 ek achchhaa 0.0000
+-0.3010 ghaṭanaa hai 0.0000
+-0.3010 haathee hai 0.0000
+-0.3010 hai </s> -0.3010
+-0.3010 ham aapake 0.0000
+-0.3010 ho </s> -0.3010
+-0.3010 hotaa hai 0.0000
+-0.3010 huaa </s> -0.3010
+-0.3010 jaaree hai 0.0000
+-0.3010 jaataa hai 0.0000
+-0.3010 jaatee hai 0.0000
+-0.9031 kaa prayog 0.0000
+-0.9031 kaa sujhaav 0.0000
+-0.9031 kaa vaahan -0.1761
+-0.9031 kaa yah -0.2688
+-0.3010 kaalaa hai 0.0000
+-0.7782 kaary jaaree 0.0000
+-0.7782 kaary karo 0.0000
+-0.7782 kaary snpann 0.0000
+-0.3010 kam hai 0.0000
+-0.3010 karataa hai 0.0000
+-0.6021 karate hai 0.0000
+-0.6021 karate raho 0.0000
+-0.3010 karo </s> -0.3010
+-0.3010 kartavy hai 0.0000
+-0.3010 karttavy karate -0.1761
+-0.3010 kee jaatee 0.0000
+-0.3010 ko mahaan 0.0000
+-0.3010 kyaa hai 0.0000
+-0.6021 maalaa achchhee 0.0000
+-0.6021 maalaa sundar 0.0000
+-0.3010 mahaan banaatee 0.0000
+-0.7782 mahaaraajaa kaa -0.2430
+-0.7782 mahaaraajaa upasthatit 0.0000
+-0.7782 mahaaraajaa vidvaan -0.2430
+-0.3010 maidaan upalabdh 0.0000
+-0.3010 paḍho </s> -0.3010
+-0.3010 prayog karo 0.0000
+-0.3010 raho </s> -0.3010
+-0.3010 sachchee ghaṭanaa 0.0000
+-0.3010 samraaṭ kaa -0.2430
+-0.3010 samundr kaalaa 0.0000
+-0.3010 sardee thee 0.0000
+-0.6021 se aatee 0.0000
+-0.6021 se jaataa 0.0000
+-0.3010 siyaahee achchhee 0.0000
+-0.3010 smitaa kyaa 0.0000
+-0.3010 snpann huaa 0.0000
+-0.3010 soochanaa vaidhy 0.0000
+-0.3010 sooraj apanee 0.0000
+-0.3010 subah sardee 0.0000
+-0.3010 sujhaav sundar 0.0000
+-0.3010 sundar hai 0.0000
+-0.3010 taalaab hai 0.0000
+-0.3010 tapasvee tapasyaa -0.1761
+-0.6021 tapasyaa karataa 0.0000
+-0.6021 tapasyaa vidhivat -0.1761
+-0.3010 thee </s> -0.3010
+-0.7782 tum durbal 0.0000
+-0.7782 tum upaniṣad -0.2218
+-0.7782 tum vidvaan -0.2430
+-0.3010 tumhaaraa virodhee -0.1761
+-0.3010 tumhaaree smitaa 0.0000
+-0.3010 upaasanaa karate -0.1761
+-0.3010 upalabdh hai 0.0000
+-0.7782 upaniṣad paḍho 0.0000
+-0.7782 upaniṣad se -0.1761
+-0.7782 upaniṣad upalabdh 0.0000
+-0.6021 upanyaas hai 0.0000
+-0.6021 upanyaas upayukt 0.0000
+-0.3010 upasthatit hai 0.0000
+-0.3010 upayukt hai 0.0000
+-0.3010 usakee aayu 0.0000
+-0.3010 usee vaaky 0.0000
+-0.6021 vaahan haathee 0.0000
+-0.6021 vaahan se -0.1761
+-0.3010 vaaky kaa -0.2430
+-0.3010 vah tumhaaraa 0.0000
+-0.3010 vaidhy hai 0.0000
+-0.3010 vaidik taalaab 0.0000
+-0.3010 vaktaa bhee 0.0000
+-0.3010 vastr sundar 0.0000
+-0.3010 veer kaa -0.2430
+-0.6021 vidhivat kaary -0.2218
+-0.6021 vidhivat kee 0.0000
+-0.9031 vidvaan ek 0.0000
+-0.9031 vidvaan hai 0.0000
+-0.9031 vidvaan ho 0.0000
+-0.9031 vidvaan upaasanaa 0.0000
+-0.6021 vidyaa upaniṣad -0.2218
+-0.6021 vidyaa vidyaarthee -0.1761
+-0.6021 vidyaalay jaataa 0.0000
+-0.6021 vidyaalay sundar 0.0000
+-0.6021 vidyaarthee ko 0.0000
+-0.6021 vidyaarthee vidyaalay -0.1761
+-0.6021 virodhee hai 0.0000
+-0.6021 virodhee yaatree -0.1761
+-0.6021 yaatree hai 0.0000
+-0.6021 yaatree vaahan -0.1761
+-1.1461 yah durlabh 0.0000
+-1.1461 yah kartavy 0.0000
+-1.1461 yah maidaan 0.0000
+-1.1461 yah sachchee 0.0000
+-1.1461 yah upanyaas -0.1761
+-1.1461 yah vaidik 0.0000
+-1.1461 yah yug 0.0000
+-0.3010 yug virodhee -0.1761
+
+\3-grams:
+-0.3010 <s> aadat achchhee
+-0.3010 <s> apanaa karttavy
+-0.3010 <s> ek achchhaa
+-0.3010 <s> ham aapake
+-0.6021 <s> kaary jaaree
+-0.6021 <s> kaary snpann
+-0.6021 <s> maalaa achchhee
+-0.6021 <s> maalaa sundar
+-0.7782 <s> mahaaraajaa kaa
+-0.7782 <s> mahaaraajaa upasthatit
+-0.7782 <s> mahaaraajaa vidvaan
+-0.3010 <s> samraaṭ kaa
+-0.3010 <s> samundr kaalaa
+-0.3010 <s> siyaahee achchhee
+-0.3010 <s> soochanaa vaidhy
+-0.3010 <s> sooraj apanee
+-0.3010 <s> subah sardee
+-0.3010 <s> tapasvee tapasyaa
+-0.3010 <s> tapasyaa vidhivat
+-0.7782 <s> tum durbal
+-0.7782 <s> tum upaniṣad
+-0.7782 <s> tum vidvaan
+-0.3010 <s> tumhaaree smitaa
+-0.3010 <s> upaniṣad upalabdh
+-0.3010 <s> usakee aayu
+-0.3010 <s> usee vaaky
+-0.3010 <s> vah tumhaaraa
+-0.3010 <s> vastr sundar
+-0.3010 <s> veer kaa
+-0.3010 <s> vidhivat kaary
+-0.3010 <s> vidvaan upaasanaa
+-0.6021 <s> vidyaa upaniṣad
+-0.6021 <s> vidyaa vidyaarthee
+-0.3010 <s> vidyaalay sundar
+-0.3010 <s> vidyaarthee vidyaalay
+-0.3010 <s> yaatree vaahan
+-1.0792 <s> yah durlabh
+-1.0792 <s> yah maidaan
+-1.0792 <s> yah sachchee
+-1.0792 <s> yah upanyaas
+-1.0792 <s> yah vaidik
+-1.0792 <s> yah yug
+-0.3010 aabhaa dikhaa </s>
+-0.3010 aabhaaree hai </s>
+-0.3010 aadat achchhee hai
+-0.3010 aapake aabhaaree hai
+-0.3010 aatee hai </s>
+-0.3010 aayu kam hai
+-0.3010 achchhaa vaktaa bhee
+-0.3010 achchhaa vidvaan ek
+-0.3010 achchhee hai </s>
+-0.3010 apanaa karttavy karate
+-0.3010 apanee aabhaa dikhaa
+-0.3010 banaatee hai </s>
+-0.3010 bhee hotaa hai
+-0.3010 durbal ho </s>
+-0.3010 durlabh upanyaas hai
+-0.6021 ek achchhaa vaktaa
+-0.6021 ek achchhaa vidvaan
+-0.3010 ghaṭanaa hai </s>
+-0.3010 haathee hai </s>
+-0.3010 ham aapake aabhaaree
+-0.3010 hotaa hai </s>
+-0.3010 jaaree hai </s>
+-0.3010 jaataa hai </s>
+-0.3010 jaatee hai </s>
+-0.3010 kaa prayog karo
+-0.3010 kaa sujhaav sundar
+-0.3010 kaa vaahan haathee
+-0.3010 kaa yah kartavy
+-0.3010 kaalaa hai </s>
+-0.3010 kaary jaaree hai
+-0.3010 kaary karo </s>
+-0.3010 kaary snpann huaa
+-0.3010 kam hai </s>
+-0.3010 karataa hai </s>
+-0.3010 karate hai </s>
+-0.3010 karate raho </s>
+-0.3010 kartavy hai </s>
+-0.3010 karttavy karate raho
+-0.3010 kee jaatee hai
+-0.3010 ko mahaan banaatee
+-0.3010 kyaa hai </s>
+-0.3010 maalaa achchhee hai
+-0.3010 maalaa sundar hai
+-0.3010 mahaan banaatee hai
+-0.3010 mahaaraajaa kaa vaahan
+-0.3010 mahaaraajaa upasthatit hai
+-0.3010 mahaaraajaa vidvaan hai
+-0.3010 maidaan upalabdh hai
+-0.3010 prayog karo </s>
+-0.3010 sachchee ghaṭanaa hai
+-0.3010 samraaṭ kaa sujhaav
+-0.3010 samundr kaalaa hai
+-0.3010 sardee thee </s>
+-0.3010 se aatee hai
+-0.3010 se jaataa hai
+-0.3010 siyaahee achchhee hai
+-0.3010 smitaa kyaa hai
+-0.3010 snpann huaa </s>
+-0.3010 soochanaa vaidhy hai
+-0.3010 sooraj apanee aabhaa
+-0.3010 subah sardee thee
+-0.3010 sujhaav sundar hai
+-0.3010 sundar hai </s>
+-0.3010 taalaab hai </s>
+-0.3010 tapasvee tapasyaa karataa
+-0.3010 tapasyaa karataa hai
+-0.3010 tapasyaa vidhivat kee
+-0.3010 tum durbal ho
+-0.3010 tum upaniṣad paḍho
+-0.3010 tum vidvaan ho
+-0.3010 tumhaaraa virodhee hai
+-0.3010 tumhaaree smitaa kyaa
+-0.3010 upaasanaa karate hai
+-0.3010 upalabdh hai </s>
+-0.3010 upaniṣad paḍho </s>
+-0.3010 upaniṣad se aatee
+-0.3010 upaniṣad upalabdh hai
+-0.3010 upanyaas hai </s>
+-0.3010 upanyaas upayukt hai
+-0.3010 upasthatit hai </s>
+-0.3010 upayukt hai </s>
+-0.3010 usakee aayu kam
+-0.3010 usee vaaky kaa
+-0.3010 vaahan haathee hai
+-0.3010 vaahan se jaataa
+-0.3010 vaaky kaa prayog
+-0.3010 vah tumhaaraa virodhee
+-0.3010 vaidhy hai </s>
+-0.3010 vaidik taalaab hai
+-0.3010 vaktaa bhee hotaa
+-0.3010 vastr sundar hai
+-0.3010 veer kaa yah
+-0.3010 vidhivat kaary karo
+-0.3010 vidhivat kee jaatee
+-0.3010 vidvaan ek achchhaa
+-0.3010 vidvaan hai </s>
+-0.3010 vidvaan ho </s>
+-0.3010 vidvaan upaasanaa karate
+-0.3010 vidyaa upaniṣad se
+-0.3010 vidyaa vidyaarthee ko
+-0.3010 vidyaalay jaataa hai
+-0.3010 vidyaalay sundar hai
+-0.3010 vidyaarthee ko mahaan
+-0.3010 vidyaarthee vidyaalay jaataa
+-0.3010 virodhee hai </s>
+-0.3010 virodhee yaatree hai
+-0.3010 yaatree hai </s>
+-0.3010 yaatree vaahan se
+-0.3010 yah durlabh upanyaas
+-0.3010 yah kartavy hai
+-0.3010 yah maidaan upalabdh
+-0.3010 yah sachchee ghaṭanaa
+-0.3010 yah upanyaas upayukt
+-0.3010 yah vaidik taalaab
+-0.3010 yah yug virodhee
+-0.3010 yug virodhee yaatree
+
+\end\

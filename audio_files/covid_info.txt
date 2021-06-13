@@ -1,20 +1,20 @@
- <s> i'm(2) </s>
- <s> so <sil> [SPEECH] <sil> a <sil> lot [SPEECH] lower </s>
- <s> he <sil> and burnley <sil> a <sil> how <sil> can(2) <sil> you <sil> how <sil> <sil> to(3) i i i <sil> mean </s>
- <s> the(2) <sil> only <sil> done <sil> when(4) <sil> huh </s>
- <s> and you'd of <sil> how </s>
- <s> [SPEECH] <sil> let <sil> a lot(2) <sil> of learn <sil> how <sil> and you'll <sil> have one </s>
- <s> and you don't(2) like how </s>
- <s> only had one is </s>
- <s> and you <sil> have to(3) </s>
- <s> <sil> and it <sil> had <sil> to(2) <sil> move <sil> out who <sil> did
- <s> and you <sil> <sil> cut and </s>
- <s> for(2) the <sil> the <sil> ocean <sil> as(2) <sil> <sil> the <sil> moon <sil> moon that only <sil> one(2) in [SPEECH] how <sil> good a <sil> <sil> and [NOISE] [NOISE] [NOISE] [NOISE] how <sil> can(2) <sil> one(2) <sil> of <sil> the of the(2) <sil> moon <sil> </s>
- <s> the(2) <sil> only <sil> good(2) <sil> at it [NOISE] if [SPEECH] happen </s>
- <s> to(3) <sil> how </s>
- <s> and you only <sil> in a(2) <sil> in <sil> a <sil> lonely </s>
- <s> in <sil> the(2) news </s>
- <s> <sil> the <sil> <sil> how <sil> the <sil> house at </s>
- <s> <sil> mm long and how <sil> <sil> you that(2) i blood at at <sil> and in </s>
- <s> and you <sil> the <sil> huh oh <sil> how <sil> did you <sil> get(2) the <sil> ah <sil> crew <sil> at to(3) [SPEECH] it </s>
- <s> huh </s>
+<s>   i'm(2) </s>
+<s>   so <sil> [SPEECH] <sil> a <sil> lot [SPEECH] lower </s>
+<s>   he <sil> and burnley <sil> a <sil> how <sil> can(2) <sil> you <sil> how <sil> <sil> to(3) i i i <sil> mean </s>
+<s>   the(2) <sil> only <sil> done <sil> when(4) <sil> huh </s>
+<s>   and you'd of <sil> how </s>
+<s>   [SPEECH] <sil> let <sil> a lot(2) <sil> of learn <sil> how <sil> and you'll <sil> have one </s>
+<s>   and you don't(2) like how </s>
+<s>   only had one is </s>
+<s>   and you <sil> have to(3) </s>
+<s>   <sil> and it <sil> had <sil> to(2) <sil> move <sil> out who <sil> did</s>
+<s>   and you <sil> <sil> cut and </s>
+<s>   for(2) the <sil> the <sil> ocean <sil> as(2) <sil> <sil> the <sil> moon <sil> moon that only <sil> one(2) in [SPEECH] how <sil> good a <sil> <sil> and [NOISE] [NOISE] [NOISE] [NOISE] how <sil> can(2) <sil> one(2) <sil> of <sil> the of the(2) <sil> moon <sil> </s>
+<s>   the(2) <sil> only <sil> good(2) <sil> at it [NOISE] if [SPEECH] happen </s>
+<s>   to(3) <sil> how </s>
+<s>   and you only <sil> in a(2) <sil> in <sil> a <sil> lonely </s>
+<s>   in <sil> the(2) news </s>
+<s>   <sil> the <sil> <sil> how <sil> the <sil> house at </s>
+<s>   <sil> mm long and how <sil> <sil> you that(2) i blood at at <sil> and in </s>
+<s>   and you <sil> the <sil> huh oh <sil> how <sil> did you <sil> get(2) the <sil> ah <sil> crew <sil> at to(3) [SPEECH] it </s>
+<s>   huh </s>

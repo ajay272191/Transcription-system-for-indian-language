@@ -48,17 +48,20 @@ engine.setProperty('voice', voices[22].id)   #changing index, changes voices. 1 
 
 
 #getting model path
-model_path_ = get_model_path()
+# model_path_ = get_model_path()
+# #configuring decoder to decode text from audio
+# config = DefaultConfig()
+# config.set_string('-hmm', os.path.join(model_path_, 'en-us'))
+# config.set_string('-lm', os.path.join(model_path_, 'en-us.lm.bin'))
+# config.set_string('-dict', os.path.join(model_path_, 'cmudict-en-us.dict'))
+# decoder = Decoder(config)
 
-
-# configuring decoder to decode text from audio
 # setting up custom configuration
 config = DefaultConfig()
-config.set_string('-hmm', os.path.join(model_path_, 'en-us'))
-config.set_string('-lm', os.path.join(model_path_, 'en-us.lm.bin'))
-config.set_string('-dict', os.path.join(model_path_, 'cmudict-en-us.dict'))
+config.set_string('-hmm', os.path.join('./', 'hindi'))
+config.set_string('-lm', os.path.join('./', 'hindi_en.lm.bin'))
+config.set_string('-dict', os.path.join('./', 'hindi_en.dic'))
 decoder = Decoder(config)
-
 
 # Decoding streaming data
 buf = bytearray(4096)
@@ -330,7 +333,7 @@ def give_intro():
     time.sleep(1)
     # engine.say('Hi I am your Shree please click button to start live transcription')
     # engine.runAndWait()
-    engine.stop()
+    # engine.stop()
 
 
 global call_sarthi_flag
@@ -410,27 +413,38 @@ def choose_file():
     global chunks
     global transciption_file_path
     slice_position = 0
-    file_path_name = askopenfilename(filetypes =[('Wav file', '.wav'), ('Mp3 file', '.mp3')])
+    file_path_name = askopenfilename(filetypes =[('Mp3 file', '.mp3'), ('Wav file', '.wav')])
     if(len(file_path_name) == 0):
         file_path_name = ' '
     print("\n\nfilename______: ", file_path_name,"\n\n\n")
     file_path['text'] =  "File: " + file_path_name
 
-    seperator = '/'
-    breaked_file_path = re.split(seperator, file_path_name)
-    file_extention = breaked_file_path[-1]
+    # seperator = '/'
+    breaked_file_path = re.split('/', file_path_name)
+    print("breaked_file_path: ",breaked_file_path)
+    print("breaked_file_path[-1]:  ",breaked_file_path[-1])
+    file_extention = re.split('\.',breaked_file_path[-1])
+    print("file_extention: ", file_extention)
     wav_file_path_name = ''
     if('.wav' not in file_extention):
 
-        breaked_file_path[-1] = '.wav'
-        wav_file_path_name = seperator.join(breaked_file_path)
+        file_extention[-1] = 'wav'
+        breaked_file_path[-1] = '.'.join(file_extention)
+        wav_file_path_name = '/'.join(breaked_file_path)
 
-        sound = AudioSegment.from_mp3(file_path_name)
-        print("\n\n================= mp3 file selected =====================\n\n")
+        sound =  AudioSegment.from_file(file_path_name, 'mp3')
         sound.export(wav_file_path_name, format="wav")
+        print("\n\n================= mp3 file selected =====================\n\n")
+        engine.say('mp3 file selected   ')
+        engine.runAndWait()
+        engine.stop()
+
     else:
         print("\n\n================= wav file selected =====================\n\n")
         wav_file_path_name = file_path_name
+        engine.say('wav file selected   ' + wav_file_path_name)
+        engine.runAndWait()
+        engine.stop()
     print("\n\n-----------------------------",wav_file_path_name,"\n\n")
     # file_dir =   "26.wav"
 
@@ -448,14 +462,16 @@ def choose_file():
 
     chunk_list = []
     for i, chunk in enumerate(chunks):
+        print("==================================================================================================================================")
         chunk.export("files/chunk{0}.wav".format(i), format="wav")
-        # play(chunk)
+        play(chunk)
         print("chunk ", i, ": ", len(chunk), "ms", " typw: ",type(chunk))
         chunk_list.append("files/chunk"+str(i)+".wav")
-    print("chunk_list: ", chunk_list)
+        print("==================================================================================================================================")
+    print("\n\nchunk_list: ", chunk_list)
     print("\n\n")
 
-    play(AudioSegment.from_file('./files/choose_file_hindi.mp3', "mp3"))
+    # play(AudioSegment.from_file('./files/choose_file_hindi.mp3', "mp3"))
     # engine.say("After choosing the files, it have break on each silences")
     # engine.runAndWait()
     # engine.stop()
@@ -470,10 +486,11 @@ def choose_file():
     print("------------------------------------------------------------------------------------------------------------------")
     print("transciption_file_path", "\n\n",transciption_file_path)
     print("------------------------------------------------------------------------------------------------------------------")
-    engine.say("            wait for next instructions")
+    engine.say("            wait for next instructions     ")
     engine.runAndWait()
     engine.stop()
-    if os.path.exists(transciption_file_path):
+    if (False):
+    # if os.path.exists(transciption_file_path):
         global transcriptions
         #open and read the file after the appending:
         print("file already exists")
@@ -492,14 +509,23 @@ def choose_file():
     else:
         for i in range(len(chunk_list)):
             prediction = ""
-
+            print("\n\n=================================================== chunk_list: ", chunk_list[i], "    I: ", i)
+            engine.say("chunks " + str(i))
+            engine.runAndWait()
+            engine.stop()
+            play(AudioSegment.from_file(chunk_list[i], "wav"))
             with open(chunk_list[i], 'rb') as f:
+                print("-----------------------chunk_list{}: ".format(i),' ',len(chunk_list) , '\n')
                 decoder.start_utt()
                 while f.readinto(buf):
                     decoder.process_raw(buf, False, False)
                 decoder.end_utt()
 
+            print("\n\n------------------decoder: ", decoder)
+            print("decoder.seg: ", decoder.seg(),"------------------\n\n")
             for segment in decoder.seg():
+                print("\n\nsegment: ", segment)
+                print("-------------segment.word: ",segment.word, '\n\n')
                 prediction = prediction + " " + segment.word
 
             print("\n\nfinal prediction is: ", prediction, "\n")
