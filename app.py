@@ -13,15 +13,10 @@ import re
 
 #for ui
 from tkinter import *
-# from tkinter.ttk import *
 from tkinter import filedialog
 from tkinter import font
 from PIL import Image, ImageTk
 from tkinter.filedialog import askopenfilename, asksaveasfilename
-
-# from tkinter.filedialog import asksaveasfilename
-#----------choose image----------------
-# importing library for user intaraction
 
 
 #importing libraries for audio processing
@@ -30,31 +25,32 @@ from pydub.silence import split_on_silence
 from pydub.playback import play
 
 
-
 # object creation
 engine = pyttsx3.init()
-# """ RATE"""
-rate = engine.getProperty('rate')   # getting details of current speaking rate
-#print (rate)                        #printing current voice rate
-engine.setProperty('rate', 100)     # setting up new voice rate
-# """VOLUME"""
-volume = engine.getProperty('volume')   #getting to know current volume level (min=0 and max=1)
-#print (volume)                          #printing current volume level
-engine.setProperty('volume',1.0)    # setting up volume level  between 0 and 1
-# """VOICE"""
-voices = engine.getProperty('voices')       #getting details of current voice
-#engine.setProperty('voice', voices[0].id)  #changing index, changes voices. o for male
-engine.setProperty('voice', voices[22].id)   #changing index, changes voices. 1 for female
 
+# getting details of current speaking rate
+rate = engine.getProperty('rate')
+print("speaking rate: ", rate)
 
-#getting model path
-# model_path_ = get_model_path()
-# #configuring decoder to decode text from audio
-# config = DefaultConfig()
-# config.set_string('-hmm', os.path.join(model_path_, 'en-us'))
-# config.set_string('-lm', os.path.join(model_path_, 'en-us.lm.bin'))
-# config.set_string('-dict', os.path.join(model_path_, 'cmudict-en-us.dict'))
-# decoder = Decoder(config)
+# setting up new voice rate
+engine.setProperty('rate', 100)
+
+#getting to know current volume level (min=0 and max=1)
+volume = engine.getProperty('volume')
+print("volume: ", volume)
+
+# setting up volume level  between 0 and 1
+engine.setProperty('volume',1.0)
+
+#getting details of current voice
+voices = engine.getProperty('voices')
+
+#changing index, changes voices. o for male
+#engine.setProperty('voice', voices[0].id)
+
+#changing index, changes voices. 1 for female
+engine.setProperty('voice', voices[22].id)
+
 
 # setting up custom configuration
 config = DefaultConfig()
@@ -65,7 +61,6 @@ decoder = Decoder(config)
 
 # Decoding streaming data
 buf = bytearray(4096)
-
 
 root = Tk()
 root.title("Sarthi AMA's Virtual Assistant")
@@ -88,9 +83,6 @@ transcriptions = []
 def new_file():
     #delete previus text
     transcipted_text.delete("1.0", END)
-    #upadte status bar
-    # root.title('New file text pad')
-    status_bar.config(text="New File...")
     global open_status_name
     open_status_name = False
 
@@ -100,18 +92,12 @@ def open_file():
 
     #grab filename
     text_file = filedialog.askopenfilename(initialdir='', title="Open File", filetypes=(("Text Files", "*.txt"), ("HTML Files", "*.html"), ("Python Files", "*.y"), ("All Files", "*.*")))
-    #check if th3re is a file name
+
+    #check if file is selected i.e. not null
     if text_file:
         #make filename global so we can access it later
         global open_status_name
         open_status_name = text_file
-
-
-    #update satus bar
-    name = text_file
-    status_bar.config(text=f'{name}        ')
-    # name = name.replace("","")
-    # root.title(f'{name}')
 
     #open fileids
     text_file = open(text_file, 'r')
@@ -124,27 +110,23 @@ def open_file():
 def save_as_file():
 
     global text_file
-    text_file = asksaveasfilename()
+    text_file = asksaveasfilename(filetypes=(("Text Files", "*.txt"), ("HTML Files", ".html"), ("Python Files", "*.py"), ("All Files", "*.*")))
+    print("text_file: ", text_file)
+
     open_status_name = text_file
-    # text_file = filedialog.asksaveasfilename(defaultextension=".*", initialdir='', title="Save File", filetypes=(("Text Files", "*.txt"), ("HTML Files", ".html"), ("Python Files", "*.py"), ("All Files", "*.*")))
-    if text_file:
-        #save the file
-        f = open(text_file, 'a')
-        f.write(transcipted_text.get(1.0, END))
-        status_bar.config(text=f'{text_file} :saved       ')
-        #close the file
-        f.close()
+    f = open(text_file, 'w')
+    f.write(transcipted_text.get(1.0, END))
+    f.close()
 
 #save file
 def save_file():
     global open_status_name
     # open_status_name = text_file
     if open_status_name:
-        #save the file
+
         f = open(open_status_name, 'w')
         f.write(transcipted_text.get(1.0, END))
-        #status update and popup code
-        status_bar.config(text=f'{open_status_name} :saved       ')
+
         #close the file
         f.close()
     else:
@@ -163,27 +145,41 @@ class Sarthi(object):
        try:
            socket.create_connection(('google.com',80))
            return True
+
+       except socket.timeout:
+           return False
        except OSError:
            return False
 
 
+
     def sarthi_stt(self):
         r = sr.Recognizer()
-        # browse_text.set("processing...")
 
         if self.test_connection()==True:
+        # if False:
             print("get set speak")
             with sr.Microphone() as source:
                 r.adjust_for_ambient_noise(source)
-                self.sarthi_tts("google A S R activated")                                           # use the default microphone as the audio source
-                audio = r.listen(source)                   # listen for the first phrase and extract it into audio data
+                self.sarthi_tts("Google A S R activated")
+
+		# use the default microphone as the audio source
+                self.sarthi_tts("you can speek now)
+
+		# listen for the first phrase and extract it into audio data
+                audio = r.listen(source)
 
             try:
-                #sarthi_tts("processing your command..")
+                sarthi_tts("processing your voice..")
                 self.x=r.recognize_google(audio)
                 print("by google command: ", self.x)
-                return self.x    # recognize speech using Google Speech Recognition
-            except Exception:                           # speech is unintelligible
+
+		# recognize speech using Google Speech Recognition
+                return self.x
+
+	    # speech is unintelligible
+            except Exception:
+		sarthi_tts("Could not understand audio")
                 print("Could not understand audio")
                 return 0
         else:
@@ -191,20 +187,17 @@ class Sarthi(object):
             print("Offline so result maybe inaccurate")
             print("now speek")
             self.sarthi_tts("pocket sphinx activated")
+            self.sarthi_tts("you can speek now")
             self.model_path = get_model_path()
-            # print(self.model_path)
             speech = LiveSpeech(
             verbose=False,
             sampling_rate=16000,
             buffer_size=2048,
             no_search=False,
             full_utt=False,
-            hmm=os.path.join(self.model_path, 'en-us'),
-            lm=os.path.join(self.model_path, 'en-us.lm.bin'),
-            dic=os.path.join(self.model_path, 'cmudict-en-us.dict')
-	        #hmm=os.path.join(self.model_path, 'hindi'),
-            #lm=os.path.join(self.model_path, 'hindi.lm.bin'),
-            #dic=os.path.join(self.model_path, 'hindi_s.dic')
+	    hmm=os.path.join(self.model_path, 'hindi'),
+            lm=os.path.join(self.model_path, 'hindi_en.lm.bin'),
+            dic=os.path.join(self.model_path, 'hindi_en.dic')
             )
             self.x=''
             count = 0
@@ -214,7 +207,6 @@ class Sarthi(object):
                 if(count == 2):
                     break
             print("you speak by phonix: ", self.x)
-            # print(x)
             return (self.x)
 
     def sarthi_openatom(self):
@@ -230,18 +222,17 @@ class Sarthi(object):
         self.sarthi_tts("opening youtube")
         self.url = 'https://www.youtube.com/'
         webbrowser.open(self.url, new=2)
+
     def sarthi_facebook(self):
         self.sarthi_tts("opening facebook")
         self.url = 'https://www.facebook.com/'
         webbrowser.open(self.url, new=2)
+
     def sarthi_gmail(self):
         self.sarthi_tts("opening gmail")
         self.url = 'https://gmail.com/'
         webbrowser.open(self.url, new=2)
-    # def sarthi_openatom(self):
-    #     self.command = "atom"
-    #     self.sarthi_tts("opening atom")
-    #     os.system(f"atom")
+
 
     def sarthi_pwd(self):
         self.cwd=os.getcwd()
@@ -264,76 +255,86 @@ class Sarthi(object):
         # self.sarthi_tts("please speek")
 
         self.x= self.sarthi_stt()
-        if(self.x==0):
-            self.x = ""
-            self.sarthi_tts('can not hear you click and please speak again')
-            return self.x
-        self.x = self.x.lower()
-        if(self.x == "open google chrome"):
-            self.x = "open google_chrome"
-        print(self.x, "you says")
-            # self.sarthi()
-        self.sarthi_dic={
-            'folder':{
-                'current':self.sarthi_pwd
-            },
-            'web':{
-                'search':self.sarthi_websearch
-            },
-            'open':{
-                'item':self.sarthi_openatom,
-                'google_chrome': self.sarthi_chrome,
-                'youtube': self.sarthi_youtube,
-                'facebook': self.sarthi_facebook,
-                'gmail': self.sarthi_gmail,
-                # https://pypi.org/project/update-check/
-                # https://www.w3resource.com/python-exercises/python-basic-exercise-2.php
-
-            }
-        }
-        self.words_list=self.x.split(" ")
-        for i in self.words_list:
-            if i in self.sarthi_dic.keys():
-                self.application_key=i
-                self.application_flag=1
-                break
-            else:
-                self.application_flag=0
-
-        if(self.application_flag != 0):
-            self.command_flag = 0
-            self.command_key = 0
-            print("here")
-            for i in self.words_list:
-                if i in self.sarthi_dic[self.application_key].keys():
-                    self.command_flag=1
-                    self.command_key=i
-                    break
-                else:
-                    self.command_flag=0
-            if(self.command_flag != 0):
-                if(self.command_flag ==1 and self.application_flag==1):
-                    print("executing command: ____", self.sarthi_dic[self.application_key][self.command_key])
-                    self.sarthi_dic[self.application_key][self.command_key]()
-            else:
-                self.user_info="sorry as of now, we are not providing this service"
-                self.sarthi_tts(self.user_info)
-                print(self.user_info)
-                self.x = self.user_info + ": " + self.x
-                # return self.x
-        else:
-            self.sarthi_tts("cant recognize what you said please click and start again")
-            print('cant recognize please click and start again')
-            # self.sarthi()
-        print("returning comband from sarthi: ", self.x)
         return self.x
+
+        # =========================only transcribing not performing actions thats why commented======================================
+        # if(self.x==0):
+        #     self.x = ""
+        #     self.sarthi_tts('can not hear you click and please speak again')
+        #     return self.x
+
+        # self.x = self.x.lower()
+        # if(self.x == "open google chrome"):
+        #     self.x = "open google_chrome"
+
+        # print(self.x, " :you says")
+        #     # self.sarthi()
+
+        # self.sarthi_dic={
+        #     'folder':{
+        #         'current':self.sarthi_pwd
+        #     },
+        #     'web':{
+        #         'search':self.sarthi_websearch
+        #     },
+        #     'open':{
+        #         'item':self.sarthi_openatom,
+		# 'atom':self.sarthi_openatom,
+        #         'google_chrome': self.sarthi_chrome,
+        #         'youtube': self.sarthi_youtube,
+        #         'facebook': self.sarthi_facebook,
+        #         'gmail': self.sarthi_gmail,
+        #         # https://pypi.org/project/update-check/
+        #         # https://www.w3resource.com/python-exercises/python-basic-exercise-2.php
+        #
+        #     }
+        # }
+
+        # self.words_list=self.x.split(" ")
+        # for i in self.words_list:
+        #     if i in self.sarthi_dic.keys():
+        #         self.application_key=i
+        #         self.application_flag=1
+        #         break
+        #     else:
+        #         self.application_flag=0
+        #
+
+        # if(self.application_flag != 0):
+        #     self.command_flag = 0
+        #     self.command_key = 0
+        #     print("here")
+        #     for i in self.words_list:
+        #         if i in self.sarthi_dic[self.application_key].keys():
+        #             self.command_flag=1
+        #             self.command_key=i
+        #             break
+        #         else:
+        #             self.command_flag=0
+        #     if(self.command_flag != 0):
+        #         if(self.command_flag ==1 and self.application_flag==1):
+        #             print("executing command: ____", self.sarthi_dic[self.application_key][self.command_key])
+        #             self.sarthi_dic[self.application_key][self.command_key]()
+        #     else:
+        #         self.user_info="sorry as of now, we are not providing this service"
+        #         # self.sarthi_tts(self.user_info)
+        #         print(self.user_info)
+        #         self.x = self.user_info + ": " + self.x
+        #         # return self.x
+        # else:
+        #     self.sarthi_tts("cant recognize what you said please click and start again")
+        #     print('cant recognize please click and start again')
+        #     self.sarthi()
+
+        # print("returning comband from sarthi: ", self.x)
+        # return self.x
 
 
 def give_intro():
     time.sleep(1)
-    # engine.say('Hi I am your Shree please click button to start live transcription')
-    # engine.runAndWait()
-    # engine.stop()
+    engine.say('Hi I am your Sarthi please click button to start live transcription')
+    engine.runAndWait()
+    engine.stop()
 
 
 global call_sarthi_flag
@@ -344,32 +345,26 @@ def call_sarthi():
     global transcipted_text
     browse_text.set("listening...")
     command = Sarthi()
-    # mic_btn['state'] = 'normal'
-    # p1 = MyClass()
+
     give_command = command.sarthi()
+    give_command = str(give_command)
+    engine.say(give_command)
+    engine.runAndWait()
+    engine.stop()
+
     print("given command: ", give_command)
+    print("call_sarthi_flag", call_sarthi_flag, "\n\n")
 
-    if(call_sarthi_flag == 0):
+    text_box_texts = transcipted_text.get("1.0",'end-1c')
+    print("----------------\n\n",text_box_texts, " in transcipted_text\n\n")
 
-        # instructions.set(give_command)
-        # global transcipted_text
-        transcipted_text.insert(INSERT, give_command)
-        #
-
-        transcipted_text.insert(INSERT, "Transcription will be shown here")
-        call_sarthi_flag = call_sarthi_flag + 1
-    else:
-
-        # instructions.set(give_command)
-        if( "Transcription will be shown here" in transcipted_text.get("1.0",'end-1c')):
-            transcipted_text.replace("Transcription will be shown here", '. ')
-        transcipted_text.insert(INSERT, give_command)
-        # if( "Transcription will be shown here" in transcipted_text.get("1.0",'end-1c')):
-        #     transcipted_text.replace("Transcription will be shown here", '. ')
-        # transcipted_text.insert(INSERT, "Transcription will be shown here")
-
-
-# browse_text.set("start")
+    if( "Transcription will be shown here" in text_box_texts):
+        text_box_texts = text_box_texts.replace("Transcription will be shown here", ". ")
+        transcipted_text.delete("1.0", END)
+        print("scription will be shown here hai --------------------------------------------------------------------")
+    text_box_texts = text_box_texts + give_command
+    print("text_box_texts: ", text_box_texts)
+    transcipted_text.insert(INSERT, text_box_texts)
 
 
 
@@ -426,11 +421,20 @@ def choose_file():
     file_extention = re.split('\.',breaked_file_path[-1])
     print("file_extention: ", file_extention)
     wav_file_path_name = ''
-    if('.wav' not in file_extention):
+    if('wav' in file_extention):
+
+        print("\n\n================= wav file selected =====================\n\n")
+        wav_file_path_name = file_path_name
+        engine.say('wave file selected   ')
+        engine.runAndWait()
+        engine.stop()
+
+    else:
 
         file_extention[-1] = 'wav'
         breaked_file_path[-1] = '.'.join(file_extention)
         wav_file_path_name = '/'.join(breaked_file_path)
+
 
         sound =  AudioSegment.from_file(file_path_name, 'mp3')
         sound.export(wav_file_path_name, format="wav")
@@ -439,12 +443,7 @@ def choose_file():
         engine.runAndWait()
         engine.stop()
 
-    else:
-        print("\n\n================= wav file selected =====================\n\n")
-        wav_file_path_name = file_path_name
-        engine.say('wav file selected   ' + wav_file_path_name)
-        engine.runAndWait()
-        engine.stop()
+
     print("\n\n-----------------------------",wav_file_path_name,"\n\n")
     # file_dir =   "26.wav"
 
@@ -452,20 +451,20 @@ def choose_file():
     # play(sound)
     # root.withdraw()
     chunks = split_on_silence(sound,
-        # must be silent for at least half a second
+        # must be silent for at 100 mili second
         min_silence_len=100,
-        # consider it silent if quieter than -16 dBFS
-        silence_thresh=-50
+        # consider it silent if quieter than -40 dBFS
+        silence_thresh=-40
      )
     total_chunk = len(chunks)
-    print("\n\ntotal no of chunks ", len(chunks))
+    print("\n\ntotal no of chunks ", len(chunks), type(chunks))
 
     chunk_list = []
     for i, chunk in enumerate(chunks):
         print("==================================================================================================================================")
         chunk.export("files/chunk{0}.wav".format(i), format="wav")
-        play(chunk)
-        print("chunk ", i, ": ", len(chunk), "ms", " typw: ",type(chunk))
+        # play(chunk)
+        # print("chunk ", i, ": ", len(chunk), "ms", " typw: ",type(chunk))
         chunk_list.append("files/chunk"+str(i)+".wav")
         print("==================================================================================================================================")
     print("\n\nchunk_list: ", chunk_list)
@@ -489,9 +488,10 @@ def choose_file():
     engine.say("            wait for next instructions     ")
     engine.runAndWait()
     engine.stop()
-    if (False):
-    # if os.path.exists(transciption_file_path):
+
+    if os.path.exists(transciption_file_path):
         global transcriptions
+
         #open and read the file after the appending:
         print("file already exists")
         f = open(transciption_file_path, "r")
@@ -509,23 +509,19 @@ def choose_file():
     else:
         for i in range(len(chunk_list)):
             prediction = ""
-            print("\n\n=================================================== chunk_list: ", chunk_list[i], "    I: ", i)
             engine.say("chunks " + str(i))
             engine.runAndWait()
             engine.stop()
             play(AudioSegment.from_file(chunk_list[i], "wav"))
+
             with open(chunk_list[i], 'rb') as f:
-                print("-----------------------chunk_list{}: ".format(i),' ',len(chunk_list) , '\n')
                 decoder.start_utt()
                 while f.readinto(buf):
                     decoder.process_raw(buf, False, False)
                 decoder.end_utt()
 
-            print("\n\n------------------decoder: ", decoder)
-            print("decoder.seg: ", decoder.seg(),"------------------\n\n")
+
             for segment in decoder.seg():
-                print("\n\nsegment: ", segment)
-                print("-------------segment.word: ",segment.word, '\n\n')
                 prediction = prediction + " " + segment.word
 
             print("\n\nfinal prediction is: ", prediction, "\n")
@@ -536,7 +532,6 @@ def choose_file():
     engine.say("now you can play each chunks")
     engine.runAndWait()
     engine.stop()
-    print("\n\n\n\n\n===================================================================================\n\n")
     print(transcriptions, "\n\n===================================================================\n\n\n\n")
     return 0
 
@@ -551,7 +546,6 @@ def play_and_do_transcribe():
     print("\n\n\n-------------------------chunk_list: ", chunk_list, " total_chunk: " ,total_chunk,"\n\n")
     if(slice_position >= total_chunk):
         slice_position = slice_position -1
-        print("\nend of clip ", slice_position)
         print("\ndo you want to  close playing then enter Y pr y else any Button")
 
         engine.say("End of the file cross")
@@ -568,19 +562,6 @@ def play_and_do_transcribe():
         slice_position = slice_position + 1
 
     if(flag == 1):
-        # data_path = get_data_path()
-        # prediction = ""
-        #
-        # with open(chunk_list[slice_position], 'rb') as f:
-        #     decoder.start_utt()
-        #     while f.readinto(buf):
-        #         decoder.process_raw(buf, False, False)
-        #     decoder.end_utt()
-        #
-        # for segment in decoder.seg():
-        #     prediction = prediction + " " + segment.word
-        #
-        # print("\n\nfinal prediction is: ", prediction, "\n")
         # transcipted_text
         transcipted_text.delete("1.0", END)
         sentence = ''
@@ -668,19 +649,11 @@ mic_state = "active"
 audio_button_state = "normal"
 choose_n_option_state = "normal"
 
-print("\n\n\n---------------------live_voice_status: ", live_button_state, "----------\n")
-print("---------------------mic_state: ", mic_state, "-------------------------")
-print("---------------------audio_button_state: ", audio_button_state, "-------------\n")
-print("-------------------choose_n_option_state: ", choose_n_option_state, "------------\n\n\n")
 
 def set_button_Status():
     # global live_button_state, mic_state, audio_button_state, choose_n_option_state
     # global live_voice_btn, audio_file_btn, mic_btn, choose_file_btn, backward_button, current_button, forward_button
 
-    print("\n\n\n-------------live_voice_status: ", live_button_state, "----------\n")
-    print("------------mic_state: ", mic_state, "--------------------\n")
-    print("-----------audio_button_state: ", audio_button_state, "--------------------------------\n")
-    print("--------------choose_n_option_state: ", choose_n_option_state, "--------------------------------\n\n\n")
     if(live_voice_btn['state'] == "active"):
         live_voice_btn['state'] = 'normal'
         audio_file_btn['state'] = 'normal'
@@ -701,16 +674,6 @@ def set_button_Status():
     else:
         print('\n\ndono normal hai--------------------------------\n\n')
 
-        pass
-
-    print("\n\nlive_voice_btn:   ",live_voice_btn['state'])
-    print("audio_file_btn:   ",audio_file_btn['state'])
-    print("mic_btn: ",mic_btn['state'])
-    print("choose_file_btn: ",choose_file_btn['state'])
-    print("backward_button: ", backward_button['state'])
-    print("current_button: ", current_button['state'])
-    print("forward_button: ", forward_button['state'],'\n\n')
-
 
 #----------------logo and transcription control----------------------
 
@@ -726,7 +689,7 @@ live_voice_btn = Button(
 live_voice_btn.grid(row=0, column=0, padx=10)
 
 #----------------- for live audio ----------------------
-logo = ImageTk.PhotoImage(Image.open('_logo.png').resize((200, 200)))
+logo = ImageTk.PhotoImage(Image.open('logo.png').resize((200, 200)))
 logo_label = Label(logo_frame, image=logo)
 # logo_label.image = logo
 # logo_label.pack()
@@ -754,7 +717,6 @@ instructions.grid(row=0, column=0, padx=10)
 
 #browse button
 browse_text = StringVar()
-# mic_btn = tk.Button(root, textvariable=browse_text, command = , font="Raleway", bg="#20bebe", fg="white", height=2, width=15)
 mic_image = Image.open("_mic.png")
 mic_image = mic_image.resize((35, 35), Image.ANTIALIAS)
 reset_img = ImageTk.PhotoImage(mic_image)
@@ -765,8 +727,7 @@ mic_btn = Button(
                     bg="#d9d9d9", fg="white", height=45, width=50,
                     state = 'disabled'
                     )
-# browse_text.set("Start")
-# mic_btn.pack()
+
 mic_btn.grid(row=1, column=0, padx=10)
 
 
@@ -871,9 +832,7 @@ edit_menu.add_command(label="Paste")
 edit_menu.add_command(label="Undo")
 edit_menu.add_command(label="Redo")
 
-#add status bar to bottom of app
-# status_bar = Label(root, text="Ready        ", anchor=E)#east = E
-# status_bar.pack(fill=X, side=BOTTOM, ipady=5 )
+
 #configure scrollbar
 text_scroll.config(command=transcipted_text.yview)
 
